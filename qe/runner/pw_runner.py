@@ -11,10 +11,10 @@ import os
 from datetime import datetime
 
 def make_calc_dir():
-    dir_name = f'{datetime.now().strftime("%Y-%m-%d_%I %M-%S_%p")}'
+    dir_name = f'{datetime.now().strftime("%Y-%m-%d_%H %M-%S_%f")}'
     dir_name = 'test/' + dir_name
-    os.makedirs(dir_name, exist_ok=False)
-    abs_dir_path = os.path.abspath("src/examplefile.txt")
+    os.makedirs(dir_name, exist_ok=True)
+    abs_dir_path = os.path.abspath(dir_name)
     return abs_dir_path
 
 
@@ -44,16 +44,15 @@ def run_pw_scf(calc_directory, structure, num_proc_pw):
     calc = Espresso(pseudopotentials=pseudopotentials, pseudo_dir = pseudo_dir,
     outdir = './outdir',  prefix = 'crystal', restart_mode = 'from_scratch',
                     tstress=True, tprnfor=True, nosym=True, 
-                    ecutwfc=50, kpts=(1, 1, 1), 
-                    ecutrho = 500,
+                    ecutwfc=10, kpts=(1, 1, 1), 
+                    ecutrho = 100,
                     occupations = 'smearing', smearing = 'gauss', degauss = 1.0e-2
                     )
+    structure.calc = calc
 
-    crystal.calc = calc
-
-    print(crystal.get_potential_energy())
+    print("Starting qe calculation...")
+    print(structure.get_potential_energy())
     # print(rocksalt.get_forces())
-
     return
 
 
@@ -87,13 +86,22 @@ def run_gipaw(calc_directory, num_proc_gipaw):
         f.writelines(gipaw_input)
         f.close()
 
+    print("Starting qe-gipaw calculation...")
+
     # f = open("espresso_gipaw.pwo", "a")
     # subprocess.run(["mpirun --oversubscribe -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"], shell=True)
     subprocess.run(["mpirun -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"], shell=True)
 
+    output_filename = "espresso_gipaw.pwo"
+    output_file = os.path.abspath(output_filename)
 
-    return
+    return output_file
 
 
+
+
+
+# better adopt parser from cclib: 
+# https://github.com/cclib/cclib/blob/master/cclib/parser/orcaparser.py#L1329
 def parse_gipaw_output(gipaw_filename):
     raise NotImplementedError
