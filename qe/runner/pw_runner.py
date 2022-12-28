@@ -119,9 +119,6 @@ def parse_gipaw_output(gipaw_file, num_atoms):
             for j in range(num_atoms):
                 atom_line = lines[i+10*j+3]
 
-                # m = re.search('Atom  (\d+) ', atom_line, re.IGNORECASE)
-                # print( m.group(1) )
-
                 atom_line_numbers = re.findall('-?[\d]+[.,\d]+|[\d]*[.][\d]+|[\d]+', atom_line)
                 atom_index = int(atom_line_numbers[0])
                 atom_coords = [ float(a) for a in atom_line_numbers[1:4] ]
