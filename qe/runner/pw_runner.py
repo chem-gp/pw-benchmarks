@@ -30,12 +30,15 @@ pseudopotentials = {'Na': 'Na.pbe-tm-gipaw-dc.UPF',
                     'N': 'N.pbe-tm-new-gipaw-dc.UPF',
                     'F': 'F.pbe-tm-new-gipaw-dc.UPF',
                     'Si': 'Si.pbe-tm-new-gipaw-dc.UPF',
+                    # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
                     'C': 'C.pbe-tm-new-gipaw-dc.UPF',
                     'H': 'H.pbe-tm-new-gipaw-dc.UPF'
                     }
 
 
-def run_pw_scf(calc_directory, structure, num_proc_pw):
+def run_pw_scf(calc_directory, structure, num_proc_pw, pw_params):
+
+    print(pw_params)
 
     os.environ["ASE_ESPRESSO_COMMAND"] = "mpirun --oversubscribe -np " + str(num_proc_pw) + " pw.x -in PREFIX.pwi > PREFIX.pwo"
     os.environ["OMP_NUM_THREADS"] = "1,1"
@@ -45,16 +48,21 @@ def run_pw_scf(calc_directory, structure, num_proc_pw):
     pseudo_dir = '../../Pseudopotentials'
 
     calc = Espresso(pseudopotentials=pseudopotentials, pseudo_dir = pseudo_dir,
-    outdir = './outdir',  prefix = 'crystal', restart_mode = 'from_scratch',
-                    tstress=True, tprnfor=True, nosym=True, 
-                    ecutwfc=10, kpts=(1, 1, 1), 
-                    ecutrho = 100,
-                    occupations = 'smearing', smearing = 'gauss', degauss = 1.0e-2
+    outdir = './outdir', **pw_params
+                    # prefix = 'crystal', restart_mode = 'from_scratch',
+                    # tstress=True, tprnfor=True, nosym=True, 
+                    # ecutwfc=10, 
+                    # # kpts=(1, 1, 1),
+                    # kpts=None, 
+                    # ecutrho = 100,
+                    # occupations = 'smearing', smearing = 'gauss', degauss = 1.0e-2
                     )
     structure.calc = calc
 
-    print("Starting qe calculation...")
+    # print("Starting qe calculation...")
     print(structure.get_potential_energy())
+
+    os.chdir('../..')
     # print(rocksalt.get_forces())
     return
 
@@ -97,6 +105,8 @@ def run_gipaw(calc_directory, num_proc_gipaw):
 
     output_filename = "espresso_gipaw.pwo"
     output_file = os.path.abspath(output_filename)
+
+    os.chdir('../..')
 
     return output_file
 
