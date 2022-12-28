@@ -10,6 +10,9 @@ from ase.calculators.espresso import Espresso
 import os
 from datetime import datetime
 
+import numpy as np
+import re
+
 def make_calc_dir():
     dir_name = f'{datetime.now().strftime("%Y-%m-%d_%H %M-%S_%f")}'
     dir_name = 'test/' + dir_name
@@ -101,7 +104,47 @@ def run_gipaw(calc_directory, num_proc_gipaw):
 
 
 
-# better adopt parser from cclib: 
-# https://github.com/cclib/cclib/blob/master/cclib/parser/orcaparser.py#L1329
-def parse_gipaw_output(gipaw_filename):
-    raise NotImplementedError
+def parse_gipaw_output(gipaw_file, num_atoms):
+
+    file_gipaw = open(gipaw_file, 'r')
+    lines = file_gipaw.readlines()
+
+    chem_shifts_tensors = np.full((num_atoms, 3, 3), np.inf)
+    chem_shifts_isotropic = np.zeros(num_atoms)
+
+
+    for i,line in enumerate(lines):   
+        if line.startswith('     Total NMR chemical shifts in ppm:'):  
+
+            for j in range(num_atoms):
+                atom_line = lines[i+10*j+3]
+
+                # m = re.search('Atom  (\d+) ', atom_line, re.IGNORECASE)
+                # print( m.group(1) )
+
+                atom_line_numbers = re.findall('-?[\d]+[.,\d]+|[\d]*[.][\d]+|[\d]+', atom_line)
+                atom_index = int(atom_line_numbers[0])
+                atom_coords = [ float(a) for a in atom_line_numbers[1:4] ]
+                isotropic_shift = float(atom_line_numbers[4])
+
+                chem_shifts_isotropic[j] = float(isotropic_shift)
+
+                # print(atom_index, atom_coords, isotropic_shift)
+                
+                tensor_row_1 = lines[i+10*j+4]
+                tensor_row_1_numbers = re.findall('-?[\d]+[.,\d]+|[\d]*[.][\d]+|[\d]+', tensor_row_1)
+                # print(tensor_row_1_numbers)
+                chem_shifts_tensors[j, 0, : ] = np.array(tensor_row_1_numbers)
+
+                tensor_row_2 = lines[i+10*j+5]
+                tensor_row_2_numbers = re.findall('-?[\d]+[.,\d]+|[\d]*[.][\d]+|[\d]+', tensor_row_2)
+                chem_shifts_tensors[j, 1, : ] = np.array(tensor_row_2_numbers)
+
+                tensor_row_3 = lines[i+10*j+6]
+                tensor_row_3_numbers = re.findall('-?[\d]+[.,\d]+|[\d]*[.][\d]+|[\d]+', tensor_row_3)
+                chem_shifts_tensors[j, 2, : ] = np.array(tensor_row_3_numbers)
+
+    # print(chem_shifts_isotropic)    
+    # print(chem_shifts_tensors)
+
+    raise chem_shifts_isotropic, chem_shifts_tensors
