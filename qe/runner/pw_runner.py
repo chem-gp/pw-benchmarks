@@ -147,4 +147,4 @@ def parse_gipaw_output(gipaw_file, num_atoms):
     # print(chem_shifts_isotropic)    
     # print(chem_shifts_tensors)
 
-    raise chem_shifts_isotropic, chem_shifts_tensors
+    return chem_shifts_isotropic, chem_shifts_tensors
