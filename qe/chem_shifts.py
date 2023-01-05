@@ -19,7 +19,7 @@ for i in range(13,14):
         'tstress':True, 
         'tprnfor':True, 
         'nosym':True, 
-        'ecutwfc':50, 
+        'ecutwfc':10, 
         'kpts':(1, 1, 1),
         # 'kpts':None, 
         'ecutrho' : 100,

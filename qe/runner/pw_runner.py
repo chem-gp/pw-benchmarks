@@ -92,11 +92,15 @@ def run_gipaw(calc_directory, num_proc_gipaw):
         job = 'nmr'
         prefix = 'crystal'
         tmp_dir = './outdir/'
+        diagonalization = 'cg'
+        verbosity = 'high'
         q_gipaw = 0.01
         spline_ps = .true.
         use_nmr_macroscopic_shape = .false.
     /
     """
+    # diagonalization = 'cg'
+    # verbosity = 'high'
 
     with open("espresso_gipaw.pwi", "w") as f:
         #    lines = ["Adding lines\n", "writing into it \n", "written successfully\n" ]
