@@ -25,16 +25,20 @@ for i in range(13,14):
         'ecutrho' : 100,
         # 'occupations' : 'smearing', 
         # 'smearing' : 'gauss', 
-        # 'degauss' : 1.0e-2
+        # 'degauss' : 1.0e-2,
+        # 'spline_ps': True
     }
 
     tms = read("test/tms.xyz")
     # crystal=read("test/MIN-167-350K-CuCbPyz.cif")
-    a = 19.0
-    crystal = tms
-    crystal.set_cell([a, a, a])
-    crystal.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
-    crystal.set_pbc(True)
+    crystal=read("test/HIK-143 293K-activated.cif")
+    # crystal=read("test/HIK-143 MeOH.cif")
+    # crystal=read("test/KTU-183_2_auto.cif")
+    # a = 19.0
+    # crystal = tms
+    # crystal.set_cell([a, a, a])
+    # crystal.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
+    # crystal.set_pbc(True)
 
     calc_dir = pw_runner.make_calc_dir()
 

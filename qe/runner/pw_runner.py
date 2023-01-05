@@ -26,13 +26,15 @@ def make_calc_dir():
 pseudopotentials = {'Na': 'Na.pbe-tm-gipaw-dc.UPF',
                     'Cl': 'Cl.pbe-tm-gipaw.UPF',
                     'Cu': 'Cu.pbe-tm-new-gipaw.UPF',
-                    'Sb': 'sb_pbe_v1.4.uspp.F.UPF', # copied from another folder
+                    'Sb': 'sb_pbe_v1.4.uspp.F.UPF', # non GIPAW pseudo!
                     'N': 'N.pbe-tm-new-gipaw-dc.UPF',
                     'F': 'F.pbe-tm-new-gipaw-dc.UPF',
+                    'Au': "Au_ONCV_PBE-1.0.oncvpsp.upf", # non GIPAW pseudo!
                     # 'Si': 'Si.pbe-tm-new-gipaw-dc.UPF',
                     # # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
                     # 'C': 'C.pbe-tm-new-gipaw-dc.UPF',
                     # 'H': 'H.pbe-tm-new-gipaw-dc.UPF',
+                    'P': "P.pbe-tm-gipaw.UPF",
                     'Si': 'Si.pbe-tm-gipaw.UPF',
                     # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
                     'C': 'C.pbe-tm-gipaw.UPF',
@@ -107,7 +109,8 @@ def run_gipaw(calc_directory, num_proc_gipaw):
         f.writelines(gipaw_input)
         f.close()
 
-    print("Starting qe-gipaw calculation...")
+    print("Starting qe-gipaw calculation with parameters:")
+    # print(gipaw_input)
 
     # f = open("espresso_gipaw.pwo", "a")
     # subprocess.run(["mpirun --oversubscribe -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"], shell=True)
