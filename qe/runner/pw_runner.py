@@ -23,6 +23,7 @@ def make_calc_dir():
 
 
 # https://sites.google.com/site/dceresoli/pseudopotentials
+# https://www.materialscloud.org/discover/sssp/table/efficiency
 pseudopotentials = {'Na': 'Na.pbe-tm-gipaw-dc.UPF',
                     'Cl': 'Cl.pbe-tm-gipaw.UPF',
                     'Cu': 'Cu.pbe-tm-new-gipaw.UPF',
