@@ -29,10 +29,14 @@ pseudopotentials = {'Na': 'Na.pbe-tm-gipaw-dc.UPF',
                     'Sb': 'sb_pbe_v1.4.uspp.F.UPF', # copied from another folder
                     'N': 'N.pbe-tm-new-gipaw-dc.UPF',
                     'F': 'F.pbe-tm-new-gipaw-dc.UPF',
-                    'Si': 'Si.pbe-tm-new-gipaw-dc.UPF',
+                    # 'Si': 'Si.pbe-tm-new-gipaw-dc.UPF',
+                    # # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
+                    # 'C': 'C.pbe-tm-new-gipaw-dc.UPF',
+                    # 'H': 'H.pbe-tm-new-gipaw-dc.UPF',
+                    'Si': 'Si.pbe-tm-gipaw.UPF',
                     # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
-                    'C': 'C.pbe-tm-new-gipaw-dc.UPF',
-                    'H': 'H.pbe-tm-new-gipaw-dc.UPF'
+                    'C': 'C.pbe-tm-gipaw.UPF',
+                    'H': 'H.pbe-tm-gipaw.UPF'
                     }
 
 
@@ -40,8 +44,9 @@ def run_pw_scf(calc_directory, structure, num_proc_pw, pw_params):
 
     print(pw_params)
 
-    os.environ["ASE_ESPRESSO_COMMAND"] = "mpirun --oversubscribe -np " + str(num_proc_pw) + " pw.x -in PREFIX.pwi > PREFIX.pwo"
+    os.environ["ASE_ESPRESSO_COMMAND"] = "mpirun -np " + str(num_proc_pw) + " pw.x -in PREFIX.pwi > PREFIX.pwo"
     os.environ["OMP_NUM_THREADS"] = "1,1"
+    os.environ["OMP_STACKSIZE"] = "80G"
 
     os.chdir(calc_directory)
 
@@ -83,6 +88,7 @@ def run_gipaw(calc_directory, num_proc_gipaw):
 
     # num_proc_gipaw = 6
     gipaw_input = """&inputgipaw
+        restart_mode = 'from_scratch'
         job = 'nmr'
         prefix = 'crystal'
         tmp_dir = './outdir/'
@@ -101,7 +107,14 @@ def run_gipaw(calc_directory, num_proc_gipaw):
 
     # f = open("espresso_gipaw.pwo", "a")
     # subprocess.run(["mpirun --oversubscribe -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"], shell=True)
+    # subprocess.run(["conda info"], shell=True)
+
     subprocess.run(["mpirun -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"], shell=True)
+
+    # p = subprocess.Popen(['mpirun -np', str(num_proc_gipaw), " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"],
+    #                     cwd=".",
+    #                     stdout=subprocess.PIPE,
+    #                     stderr=subprocess.STDOUT)
 
     output_filename = "espresso_gipaw.pwo"
     output_file = os.path.abspath(output_filename)
