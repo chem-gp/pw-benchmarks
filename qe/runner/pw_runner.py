@@ -98,7 +98,7 @@ def run_gipaw(calc_directory, num_proc_gipaw):
         job = 'nmr'
         prefix = 'crystal'
         tmp_dir = './outdir/'
-        diagonalization = 'cg'
+        !diagonalization = 'cg'
         verbosity = 'high'
         q_gipaw = 0.01
         spline_ps = .true.

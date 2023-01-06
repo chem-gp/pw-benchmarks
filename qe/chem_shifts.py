@@ -20,8 +20,8 @@ energies = []
 
 for i in range(len(ecutwfc_list)):
 
-    np_pw = 10
-    np_gipaw = 10
+    np_pw = 5
+    np_gipaw = 5
 
     pw_params = {
         'prefix':'crystal', 
