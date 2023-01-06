@@ -13,6 +13,8 @@ from datetime import datetime
 import numpy as np
 import re
 
+import f90nml
+
 def make_calc_dir():
     dir_name = f'{datetime.now().strftime("%Y-%m-%d_%H %M-%S_%f")}'
     dir_name = 'test/' + dir_name
@@ -30,16 +32,16 @@ pseudopotentials = {'Na': 'Na.pbe-tm-gipaw-dc.UPF',
                     'Sb': 'sb_pbe_v1.4.uspp.F.UPF', # non GIPAW pseudo!
                     'F': 'F.pbe-tm-new-gipaw-dc.UPF',
                     'Au': "Au_ONCV_PBE-1.0.oncvpsp.upf", # non GIPAW pseudo!
-                    # 'Si': 'Si.pbe-tm-new-gipaw-dc.UPF',
-                    # # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
-                    # 'C': 'C.pbe-tm-new-gipaw-dc.UPF',
-                    # 'H': 'H.pbe-tm-new-gipaw-dc.UPF',
-                    # 'P': "P.pbe-tm-gipaw.UPF",
-                    'Si': 'Si.pbe-tm-gipaw.UPF',
-                    'N': 'N.pbe-tm-gipaw.UPF',
+                    'Si': 'Si.pbe-tm-new-gipaw-dc.UPF',
                     # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
-                    'C': 'C.pbe-tm-gipaw.UPF',
-                    'H': 'H.pbe-tm-gipaw.UPF',
+                    'C': 'C.pbe-tm-new-gipaw-dc.UPF',
+                    'H': 'H.pbe-tm-new-gipaw-dc.UPF',
+                    # 'P': "P.pbe-tm-gipaw.UPF",
+                    # 'Si': 'Si.pbe-tm-gipaw.UPF',
+                    # 'N': 'N.pbe-tm-gipaw.UPF',
+                    # # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
+                    # 'C': 'C.pbe-tm-gipaw.UPF',
+                    # 'H': 'H.pbe-tm-gipaw.UPF',
                     # 'H': 'H.pbe-rrkjus_psl.1.0.0.UPF',
                     # 'C': 'C.pbe-n-kjpaw_psl.1.0.0.UPF',
                     # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF'
@@ -78,7 +80,8 @@ def run_pw_scf(calc_directory, structure, num_proc_pw, pw_params):
     return
 
 
-
+# https://github.com/dceresoli/qe-gipaw/blob/master/doc/user-manual.pdf
+# https://indico.ictp.it/event/7921/session/324/contribution/1274/material/0/0.pdf
 def run_gipaw(calc_directory, num_proc_gipaw):
     # &inputgipaw
     #     job = 'nmr'
@@ -91,6 +94,18 @@ def run_gipaw(calc_directory, num_proc_gipaw):
 
     os.chdir(calc_directory)
 
+    # with open('espresso_gipaw.pwi') as nml_file:
+    #     nml = f90nml.read(nml_file)
+    # https://github.com/marshallward/f90nml
+    # nml = {
+    #             'inputgipaw': {
+    #                 'restart_model': 'from_scratch',
+    #                 'job': 'nmr',
+    #                 'prefix': 'crystal',
+    #                 'tmp_dir': './outdir/',
+    #                 'diagonalization': 'cg'
+    #             }
+    #         }
 
     # num_proc_gipaw = 6
     gipaw_input = """&inputgipaw
@@ -98,15 +113,16 @@ def run_gipaw(calc_directory, num_proc_gipaw):
         job = 'nmr'
         prefix = 'crystal'
         tmp_dir = './outdir/'
-        !diagonalization = 'cg'
+        diagonalization = 'cg'
         verbosity = 'high'
-        q_gipaw = 0.01
+        q_gipaw = 0.001 
         spline_ps = .true.
         use_nmr_macroscopic_shape = .false.
     /
     """
     # diagonalization = 'cg'
     # verbosity = 'high'
+    # conv_threshold=10e-10
 
     with open("espresso_gipaw.pwi", "w") as f:
         #    lines = ["Adding lines\n", "writing into it \n", "written successfully\n" ]

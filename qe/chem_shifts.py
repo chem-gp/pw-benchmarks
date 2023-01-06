@@ -1,5 +1,6 @@
 # nohup python chem_shifts.py > "test/$(date +"%Y_%m_%d_%I_%M_%p").log" 2>&1 &
 # python chem_shifts.py > "test/$(date +"%Y_%m_%d_%I_%M_%p").log" 2>&1
+# python chem_shifts.py > "test/$(date +"%Y_%m_%d_%I_%M_%p").log"
 
 # pkill -9 -f pw.x; pkill -9 -f gipaw.x
 
@@ -18,7 +19,9 @@ ecutwfc_list = [10,20,30,40,50,60,70]
 energies = []
 
 
-for i in range(len(ecutwfc_list)):
+# for i in range(len(ecutwfc_list)):
+# for i in reversed(range(len(ecutwfc_list))):
+for i in range(1):
 
     np_pw = 5
     np_gipaw = 5
@@ -29,10 +32,10 @@ for i in range(len(ecutwfc_list)):
         'tstress':True, 
         'tprnfor':True, 
         'nosym':True, 
-        'ecutwfc': ecutwfc_list[i], 
+        'ecutwfc': 50, 
         'kpts':(1, 1, 1),
         # 'kpts':None, 
-        'ecutrho' : 8*ecutwfc_list[i],
+        'ecutrho' : 10*50,
         # 'occupations' : 'smearing', 
         # 'smearing' : 'gauss', 
         # 'degauss' : 1.0e-2,
@@ -72,6 +75,8 @@ for i in range(len(ecutwfc_list)):
 
     scf_times.append(scf_time)
     gipaw_times.append(gipaw_time)
+
+
 
 
 # print("SCF time: ", scf_time)
