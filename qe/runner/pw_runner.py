@@ -82,6 +82,7 @@ def run_pw_scf(calc_directory, structure, num_proc_pw, pw_params):
 
 # https://github.com/dceresoli/qe-gipaw/blob/master/doc/user-manual.pdf
 # https://indico.ictp.it/event/7921/session/324/contribution/1274/material/0/0.pdf
+# https://www.mdpi.com/1996-1944/15/9/3347
 def run_gipaw(calc_directory, num_proc_gipaw):
     # &inputgipaw
     #     job = 'nmr'
