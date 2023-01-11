@@ -83,7 +83,7 @@ def run_pw_scf(calc_directory, structure, num_proc_pw, pw_params):
 # https://github.com/dceresoli/qe-gipaw/blob/master/doc/user-manual.pdf
 # https://indico.ictp.it/event/7921/session/324/contribution/1274/material/0/0.pdf
 # https://www.mdpi.com/1996-1944/15/9/3347
-def run_gipaw(calc_directory, num_proc_gipaw):
+def run_gipaw(calc_directory, output_file, num_proc_gipaw):
     # &inputgipaw
     #     job = 'nmr'
     #     prefix = 'TMS'
@@ -137,7 +137,7 @@ def run_gipaw(calc_directory, num_proc_gipaw):
     # subprocess.run(["mpirun --oversubscribe -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"], shell=True)
     # subprocess.run(["conda info"], shell=True)
 
-    subprocess.run(["mpirun -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"], shell=True)
+    subprocess.run(["mpirun -np " + str(num_proc_gipaw) + " gipaw.x -in espresso_gipaw.pwi > " + output_file], shell=True)
 
     # p = subprocess.Popen(['mpirun -np', str(num_proc_gipaw), " gipaw.x -in espresso_gipaw.pwi > espresso_gipaw.pwo"],
     #                     cwd=".",
