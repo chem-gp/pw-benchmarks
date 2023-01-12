@@ -1,6 +1,8 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+import numpy as np
+
 import os
 
 
@@ -66,4 +68,12 @@ def plot_chemical_shifts(crystal, save_plots_path="."):
     plt.savefig(save_plots_path + "/29Si_chemical_shifts.png", bbox_inches='tight', dpi=400)
     plt.show()
 
-    return
+    chemical_shifts_H_np = np.array(chemical_shifts_H)
+    chemical_shifts_C_np = np.array(chemical_shifts_C)
+
+    chemical_shifts_np = {
+        'H': chemical_shifts_H_np,
+        'C': chemical_shifts_C_np
+    }
+
+    return chemical_shifts_np
