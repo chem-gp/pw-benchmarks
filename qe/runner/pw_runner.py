@@ -22,10 +22,27 @@ def make_calc_dir():
     abs_dir_path = os.path.abspath(dir_name)
     return abs_dir_path
 
-
-
+# https://www.quantum-espresso.org/faq/faq-pseudopotentials/
+# https://drive.google.com/drive/folders/1xoYAlGz3YD5zYfU4YD9a-oANckVAXIR-
 # https://sites.google.com/site/dceresoli/pseudopotentials
 # https://www.materialscloud.org/discover/sssp/table/efficiency
+# https://pubs.acs.org/doi/10.1021/cr300108a
+# Note: 
+# Kinetic energy cutoff (Ry) for charge density and potential
+# For norm-conserving pseudopotential you should stick to the
+# default value, you can reduce it by a little but it will
+# introduce noise especially on forces and stress.
+# If there are ultrasoft PP, a larger value than the default is
+# often desirable (ecutrho = 8 to 12 times ecutwfc, typically).
+# PAW datasets can often be used at 4*ecutwfc, but it depends
+# on the shape of augmentation charge: testing is mandatory.
+# The use of gradient-corrected functional, especially in cells
+# with vacuum, or for pseudopotential without non-linear core
+# correction, usually requires an higher values of ecutrho
+# to be accurately converged.
+# https://www.quantum-espresso.org/Doc/INPUT_PW.html
+# https://molmod.ugent.be/deltacodesdft
+# Ultrasoft paper: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.41.7892
 pseudopotentials = {
                     # 'Na': 'Na.pbe-tm-gipaw-dc.UPF',
                     # 'Cl': 'Cl.pbe-tm-gipaw.UPF',
@@ -47,7 +64,7 @@ pseudopotentials = {
                     'C': 'C.pbe-rrkjus-gipaw-dc.UPF',
                     'N': 'N.pbe-rrkjus-gipaw-dc.UPF',
                     'O': 'O.pbe-rrkjus-gipaw-dc.UPF',
-                    'Si': 'Si.pbe-tm-gipaw.UPF'
+                    'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF'
                     }
 
 

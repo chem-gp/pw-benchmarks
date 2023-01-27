@@ -131,3 +131,5 @@ dmypy.json
 qe/Pseudopotentials/
 qe/test/
 structures/*
+qe/Pseudopotentials.tar.gz
+structures.tar.gz
