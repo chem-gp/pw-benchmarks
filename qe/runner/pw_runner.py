@@ -26,25 +26,28 @@ def make_calc_dir():
 
 # https://sites.google.com/site/dceresoli/pseudopotentials
 # https://www.materialscloud.org/discover/sssp/table/efficiency
-pseudopotentials = {'Na': 'Na.pbe-tm-gipaw-dc.UPF',
-                    'Cl': 'Cl.pbe-tm-gipaw.UPF',
-                    'Cu': 'Cu.pbe-tm-new-gipaw.UPF',
-                    'Sb': 'sb_pbe_v1.4.uspp.F.UPF', # non GIPAW pseudo!
-                    'F': 'F.pbe-tm-new-gipaw-dc.UPF',
-                    'Au': "Au_ONCV_PBE-1.0.oncvpsp.upf", # non GIPAW pseudo!
+pseudopotentials = {
+                    # 'Na': 'Na.pbe-tm-gipaw-dc.UPF',
+                    # 'Cl': 'Cl.pbe-tm-gipaw.UPF',
+                    # 'Cu': 'Cu.pbe-tm-new-gipaw.UPF',
+                    # 'Sb': 'sb_pbe_v1.4.uspp.F.UPF', # non GIPAW pseudo!
+                    # 'F': 'F.pbe-tm-new-gipaw-dc.UPF',
+                    # 'Au': "Au_ONCV_PBE-1.0.oncvpsp.upf", # non GIPAW pseudo!
                     # 'Si': 'Si.pbe-tm-new-gipaw-dc.UPF',
                     # # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
                     # 'C': 'C.pbe-tm-new-gipaw-dc.UPF',
                     # 'H': 'H.pbe-tm-new-gipaw-dc.UPF',
                     # 'P': "P.pbe-tm-gipaw.UPF",
-                    'Si': 'Si.pbe-tm-gipaw.UPF',
-                    'N': 'N.pbe-tm-gipaw.UPF',
-                    # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
-                    'C': 'C.pbe-tm-gipaw.UPF',
-                    'H': 'H.pbe-tm-gipaw.UPF',
-                    # 'H': 'H.pbe-rrkjus_psl.1.0.0.UPF',
-                    # 'C': 'C.pbe-n-kjpaw_psl.1.0.0.UPF',
-                    # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF'
+                    # 'Si': 'Si.pbe-tm-gipaw.UPF',
+                    # 'N': 'N.pbe-tm-gipaw.UPF',
+                    # # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
+                    # 'C': 'C.pbe-tm-gipaw.UPF',
+                    # 'H': 'H.pbe-tm-gipaw.UPF',
+                    'H': 'H.pbe-rrkjus-gipaw-dc.UPF',
+                    'C': 'C.pbe-rrkjus-gipaw-dc.UPF',
+                    'N': 'N.pbe-rrkjus-gipaw-dc.UPF',
+                    'O': 'O.pbe-rrkjus-gipaw-dc.UPF',
+                    'Si': 'Si.pbe-tm-gipaw.UPF'
                     }
 
 
