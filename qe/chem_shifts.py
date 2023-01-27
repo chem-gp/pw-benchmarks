@@ -9,88 +9,115 @@ from ase.io import read, write
 
 import time
 
+import os
 
-scf_times = []
-gipaw_times = []
+# Defining parameters:
 
-# Benchmarking list:
-ecutwfc_list = [10,20,30,40,50,60,70]
+np_pw = 10
+np_gipaw = 10
 
-energies = []
+pw_params = {
+    'prefix':'crystal', 
+    'restart_mode' : 'from_scratch',
+    'tstress':True, 
+    'tprnfor':True, 
+    'nosym':True, 
+    'ecutwfc':40, 
+    'kpts':(1, 1, 1),
+    # 'kpts':None, 
+    'ecutrho' : 320,
+    # 'occupations' : 'smearing', 
+    # 'smearing' : 'gauss', 
+    # 'degauss' : 1.0e-2
+}
 
+# Loading structures:
 
-# for i in range(len(ecutwfc_list)):
-# for i in reversed(range(len(ecutwfc_list))):
-for i in range(1):
+# crystal=read("../structures/MIN-167-350K-CuCbPyz.cif")
+# crystal=read("../structures/HIK-143 293K-activated.cif")
+# crystal=read("../structures/HIK-143 MeOH.cif")
+# crystal=read("../structures/KTU-183_2_auto.cif")
+crystal_264=read("../structures/new_systems/ktu_002.cif")
+crystal_258=read("../structures/new_systems/KTU-065-25do-b.cif")
+crystal_612=read("../structures/new_systems/KTU-TBS-20do_auto.cif")
 
-    np_pw = 5
-    np_gipaw = 5
+crystal = crystal_258
+tms = read("../structures/tms.xyz")
+# crystal = tms
+a = 15.0
+tms.set_cell([a, a, a])
+tms.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
+tms.set_pbc(True)
+# Creating directory to store all the data:
+calc_dir = pw_runner.make_calc_dir()
+print("Starting QE/SCF calculation for TMS...")
+pw_runner.run_pw_scf(calc_dir, tms, num_proc_pw=np_pw, pw_params=pw_params)
+print("Starting gipaw calculation for TMS...")
+gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw_tms.pwo", num_proc_gipaw=np_gipaw)
+chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw_tms.pwo', num_atoms=len(tms))
+tms.info['chemical_shifts_iso'] = chemical_shifts_iso
+tms.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+write(calc_dir+"/tms.xyz", tms, format='extxyz')
+os.rename(calc_dir+"/espresso.pwo", calc_dir+"/espresso_tms.pwo")
+print("Starting QE/SCF calculation for crystal...")
+pw_runner.run_pw_scf(calc_dir, crystal, num_proc_pw=np_pw, pw_params=pw_params)
+print("Starting gipaw calculation for crystal...")
+gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw.pwo", num_proc_gipaw=np_gipaw)
+chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw.pwo', num_atoms=len(crystal))
+crystal.info['chemical_shifts_iso'] = chemical_shifts_iso
+crystal.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+write(calc_dir+"/crystal.xyz", crystal, format='extxyz')
 
-    pw_params = {
-        'prefix':'crystal', 
-        'restart_mode' : 'from_scratch',
-        'tstress':True, 
-        'tprnfor':True, 
-        'nosym':True, 
-        'ecutwfc': 50, 
-        'kpts':(1, 1, 1),
-        # 'kpts':None, 
-        'ecutrho' : 10*50,
-        # 'occupations' : 'smearing', 
-        # 'smearing' : 'gauss', 
-        # 'degauss' : 1.0e-2,
-        # 'spline_ps': True
-    }
+crystal = crystal_264
+tms = read("../structures/tms.xyz")
+# crystal = tms
+a = 15.0
+tms.set_cell([a, a, a])
+tms.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
+tms.set_pbc(True)
+# Creating directory to store all the data:
+calc_dir = pw_runner.make_calc_dir()
+print("Starting QE/SCF calculation for TMS...")
+pw_runner.run_pw_scf(calc_dir, tms, num_proc_pw=np_pw, pw_params=pw_params)
+print("Starting gipaw calculation for TMS...")
+gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw_tms.pwo", num_proc_gipaw=np_gipaw)
+chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw_tms.pwo', num_atoms=len(tms))
+tms.info['chemical_shifts_iso'] = chemical_shifts_iso
+tms.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+write(calc_dir+"/tms.xyz", tms, format='extxyz')
+os.rename(calc_dir+"/espresso.pwo", calc_dir+"/espresso_tms.pwo")
+print("Starting QE/SCF calculation for crystal...")
+pw_runner.run_pw_scf(calc_dir, crystal, num_proc_pw=np_pw, pw_params=pw_params)
+print("Starting gipaw calculation for crystal...")
+gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw.pwo", num_proc_gipaw=np_gipaw)
+chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw.pwo', num_atoms=len(crystal))
+crystal.info['chemical_shifts_iso'] = chemical_shifts_iso
+crystal.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+write(calc_dir+"/crystal.xyz", crystal, format='extxyz')
 
-    tms = read("../structures/tms.xyz")
-    # crystal=read("../structures/MIN-167-350K-CuCbPyz.cif")
-    # crystal=read("../structures/HIK-143 293K-activated.cif")
-    # crystal=read("../structures/HIK-143 MeOH.cif")
-    # crystal=read("../structures/KTU-183_2_auto.cif")
-    a = 10.0
-    crystal = tms
-    crystal.set_cell([a, a, a])
-    crystal.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
-    crystal.set_pbc(True)
-
-    calc_dir = pw_runner.make_calc_dir()
-
-    print("Starting QE/SCF calculation...")
-    start_time = time.time()
-    pw_runner.run_pw_scf(calc_dir, crystal, num_proc_pw=np_pw, pw_params=pw_params)
-    scf_time = time.time() - start_time
-    print("QE/SCF calculation finished in ", scf_time, " seconds")
-
-    print("Starting gipaw calculation...")
-    gipaw_out = pw_runner.run_gipaw(calc_dir, num_proc_gipaw=np_gipaw)
-    gipaw_time = time.time() - scf_time - start_time
-    print("QE/GIPAW calculation finished in ", gipaw_time, " seconds")
-
-    chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw.pwo', num_atoms=len(crystal))
-
-    crystal.info['chemical_shifts_iso'] = chemical_shifts_iso
-    crystal.info['chemical_shifts_tensors'] = chemical_shifts_tensors
-
-    write(calc_dir+"/crystal.xyz", crystal, format='extxyz')
-
-    scf_times.append(scf_time)
-    gipaw_times.append(gipaw_time)
-
-
-
-
-# print("SCF time: ", scf_time)
-# print("GIPAW time: ", gipaw_time)
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-x = np.arange(1, len(scf_times)+1, 1, dtype=int)
-plt.plot(x, scf_times, label='SCF time')
-plt.plot(x, gipaw_times, label='GIPAW time')
-plt.xticks(x)
-plt.xlabel('Num. of MPI processes')
-plt.ylabel('Time, s.')
-plt.legend()
-plt.savefig("test/Figure_"+ time.strftime("%Y-%m-%d %H%M%S") + ".png")
-# plt.show()
+crystal = crystal_612
+tms = read("../structures/tms.xyz")
+# crystal = tms
+a = 15.0
+tms.set_cell([a, a, a])
+tms.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
+tms.set_pbc(True)
+# Creating directory to store all the data:
+calc_dir = pw_runner.make_calc_dir()
+print("Starting QE/SCF calculation for TMS...")
+pw_runner.run_pw_scf(calc_dir, tms, num_proc_pw=np_pw, pw_params=pw_params)
+print("Starting gipaw calculation for TMS...")
+gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw_tms.pwo", num_proc_gipaw=np_gipaw)
+chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw_tms.pwo', num_atoms=len(tms))
+tms.info['chemical_shifts_iso'] = chemical_shifts_iso
+tms.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+write(calc_dir+"/tms.xyz", tms, format='extxyz')
+os.rename(calc_dir+"/espresso.pwo", calc_dir+"/espresso_tms.pwo")
+print("Starting QE/SCF calculation for crystal...")
+pw_runner.run_pw_scf(calc_dir, crystal, num_proc_pw=np_pw, pw_params=pw_params)
+print("Starting gipaw calculation for crystal...")
+gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw.pwo", num_proc_gipaw=np_gipaw)
+chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw.pwo', num_atoms=len(crystal))
+crystal.info['chemical_shifts_iso'] = chemical_shifts_iso
+crystal.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+write(calc_dir+"/crystal.xyz", crystal, format='extxyz')
