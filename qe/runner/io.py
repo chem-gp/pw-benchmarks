@@ -24,21 +24,32 @@ def get_chemical_shifts_from_xyz(struct):
     chemical_shifts_H = []
     chemical_shifts_O = []
 
+    indices_Si = []
+    indices_N = []
+    indices_C = []
+    indices_H = []
+    indices_O = []
+
     for i,shift in enumerate(chemical_shifts):   
         if symbols[i] == 'Si':
             chemical_shifts_Si.append(shift)
+            indices_Si.append(i)
 
         if symbols[i] == 'C':
             chemical_shifts_C.append(shift)
+            indices_C.append(i)
 
         if symbols[i] == 'N':
             chemical_shifts_N.append(shift)
+            indices_N.append(i)
 
         if symbols[i] == 'O':
             chemical_shifts_O.append(shift)
+            indices_O.append(i)
         
         if symbols[i] == 'H':
             chemical_shifts_H.append(shift)
+            indices_H.append(i)
 
 
     chemical_shifts_H_np = np.array(chemical_shifts_H)
@@ -53,7 +64,12 @@ def get_chemical_shifts_from_xyz(struct):
         'C': chemical_shifts_C_np,
         'N': chemical_shifts_N_np,
         'O': chemical_shifts_O_np,
-        'Si': chemical_shifts_Si_np
+        'Si': chemical_shifts_Si_np,
+        'H_indices': indices_H,
+        'C_indices': indices_C,
+        'N_indices': indices_N,
+        'O_indices': indices_O,
+        'Si_indices': indices_Si
     }
 
     return chemical_shifts_np
