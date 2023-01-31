@@ -22,10 +22,10 @@ pw_params = {
     'tstress':True, 
     'tprnfor':True, 
     'nosym':True, 
-    'ecutwfc':40, 
+    'ecutwfc':50, 
     'kpts':(1, 1, 1),
     # 'kpts':None, 
-    'ecutrho' : 320,
+    'ecutrho' : 400,
     # 'occupations' : 'smearing', 
     # 'smearing' : 'gauss', 
     # 'degauss' : 1.0e-2
@@ -95,29 +95,29 @@ crystal.info['chemical_shifts_iso'] = chemical_shifts_iso
 crystal.info['chemical_shifts_tensors'] = chemical_shifts_tensors
 write(calc_dir+"/crystal.xyz", crystal, format='extxyz')
 
-crystal = crystal_612
-tms = read("../structures/tms.xyz")
-# crystal = tms
-a = 15.0
-tms.set_cell([a, a, a])
-tms.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
-tms.set_pbc(True)
-# Creating directory to store all the data:
-calc_dir = pw_runner.make_calc_dir()
-print("Starting QE/SCF calculation for TMS...")
-pw_runner.run_pw_scf(calc_dir, tms, num_proc_pw=np_pw, pw_params=pw_params)
-print("Starting gipaw calculation for TMS...")
-gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw_tms.pwo", num_proc_gipaw=np_gipaw)
-chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw_tms.pwo', num_atoms=len(tms))
-tms.info['chemical_shifts_iso'] = chemical_shifts_iso
-tms.info['chemical_shifts_tensors'] = chemical_shifts_tensors
-write(calc_dir+"/tms.xyz", tms, format='extxyz')
-os.rename(calc_dir+"/espresso.pwo", calc_dir+"/espresso_tms.pwo")
-print("Starting QE/SCF calculation for crystal...")
-pw_runner.run_pw_scf(calc_dir, crystal, num_proc_pw=np_pw, pw_params=pw_params)
-print("Starting gipaw calculation for crystal...")
-gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw.pwo", num_proc_gipaw=np_gipaw)
-chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw.pwo', num_atoms=len(crystal))
-crystal.info['chemical_shifts_iso'] = chemical_shifts_iso
-crystal.info['chemical_shifts_tensors'] = chemical_shifts_tensors
-write(calc_dir+"/crystal.xyz", crystal, format='extxyz')
+# crystal = crystal_612
+# tms = read("../structures/tms.xyz")
+# # crystal = tms
+# a = 15.0
+# tms.set_cell([a, a, a])
+# tms.set_cell([(a, 0, 0), (0, a, 0), (0, 0, a)])
+# tms.set_pbc(True)
+# # Creating directory to store all the data:
+# calc_dir = pw_runner.make_calc_dir()
+# print("Starting QE/SCF calculation for TMS...")
+# pw_runner.run_pw_scf(calc_dir, tms, num_proc_pw=np_pw, pw_params=pw_params)
+# print("Starting gipaw calculation for TMS...")
+# gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw_tms.pwo", num_proc_gipaw=np_gipaw)
+# chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw_tms.pwo', num_atoms=len(tms))
+# tms.info['chemical_shifts_iso'] = chemical_shifts_iso
+# tms.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+# write(calc_dir+"/tms.xyz", tms, format='extxyz')
+# os.rename(calc_dir+"/espresso.pwo", calc_dir+"/espresso_tms.pwo")
+# print("Starting QE/SCF calculation for crystal...")
+# pw_runner.run_pw_scf(calc_dir, crystal, num_proc_pw=np_pw, pw_params=pw_params)
+# print("Starting gipaw calculation for crystal...")
+# gipaw_out = pw_runner.run_gipaw(calc_dir, "espresso_gipaw.pwo", num_proc_gipaw=np_gipaw)
+# chemical_shifts_iso, chemical_shifts_tensors = pw_runner.parse_gipaw_output(calc_dir + '/espresso_gipaw.pwo', num_atoms=len(crystal))
+# crystal.info['chemical_shifts_iso'] = chemical_shifts_iso
+# crystal.info['chemical_shifts_tensors'] = chemical_shifts_tensors
+# write(calc_dir+"/crystal.xyz", crystal, format='extxyz')
