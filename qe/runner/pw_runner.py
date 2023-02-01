@@ -136,7 +136,7 @@ def run_gipaw(calc_directory, output_file, num_proc_gipaw):
         tmp_dir = './outdir/'
         diagonalization = 'david'
         verbosity = 'high'
-        q_gipaw = 0.001 
+        q_gipaw = 0.01 
         spline_ps = .true.
         use_nmr_macroscopic_shape = .false.
     /
