@@ -2,6 +2,9 @@
 # python chem_shifts.py > "test/$(date +"%Y_%m_%d_%I_%M_%p").log" 2>&1
 # python chem_shifts.py > "test/$(date +"%Y_%m_%d_%I_%M_%p").log"
 
+
+# python ./chem_shifts.py
+
 # pkill -9 -f pw.x; pkill -9 -f gipaw.x
 
 from runner import pw_runner
