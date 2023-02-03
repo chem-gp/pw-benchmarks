@@ -25,10 +25,10 @@ pw_params = {
     'tstress':True, 
     'tprnfor':True, 
     'nosym':True, 
-    'ecutwfc':50, 
+    'ecutwfc':60, 
     'kpts':(1, 1, 1),
     # 'kpts':None, 
-    'ecutrho' : 400,
+    'ecutrho' : 240,
     # 'occupations' : 'smearing', 
     # 'smearing' : 'gauss', 
     # 'degauss' : 1.0e-2

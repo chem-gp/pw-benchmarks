@@ -55,16 +55,16 @@ pseudopotentials = {
                     # 'C': 'C.pbe-tm-new-gipaw-dc.UPF',
                     # 'H': 'H.pbe-tm-new-gipaw-dc.UPF',
                     # 'P': "P.pbe-tm-gipaw.UPF",
-                    # 'Si': 'Si.pbe-tm-gipaw.UPF',
-                    # 'N': 'N.pbe-tm-gipaw.UPF',
-                    # # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF',
-                    # 'C': 'C.pbe-tm-gipaw.UPF',
-                    # 'H': 'H.pbe-tm-gipaw.UPF',
-                    'H': 'H.pbe-rrkjus-gipaw-dc.UPF',
-                    'C': 'C.pbe-rrkjus-gipaw-dc.UPF',
-                    'N': 'N.pbe-rrkjus-gipaw-dc.UPF',
-                    'O': 'O.pbe-rrkjus-gipaw-dc.UPF',
-                    'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF'
+                    'Si': 'Si.pbe-tm-gipaw.UPF',
+                    'N': 'N.pbe-tm-gipaw.UPF',
+                    'C': 'C.pbe-tm-gipaw.UPF',
+                    'H': 'H.pbe-tm-gipaw.UPF',
+                    'O': 'O.pbe-tm-gipaw.UPF',
+                    # 'H': 'H.pbe-rrkjus-gipaw-dc.UPF',
+                    # 'C': 'C.pbe-rrkjus-gipaw-dc.UPF',
+                    # 'N': 'N.pbe-rrkjus-gipaw-dc.UPF',
+                    # 'O': 'O.pbe-rrkjus-gipaw-dc.UPF',
+                    # 'Si': 'Si.pbe-n-rrkjus_psl.1.0.0.UPF'
                     }
 
 
