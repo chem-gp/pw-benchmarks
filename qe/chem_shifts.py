@@ -26,7 +26,7 @@ pw_params = {
     'tprnfor':True, 
     'nosym':True, 
     'ecutwfc':60, 
-    'kpts':(1, 1, 1),
+    'kpts':(4, 2, 2),
     # 'kpts':None, 
     'ecutrho' : 240,
     # 'occupations' : 'smearing', 
